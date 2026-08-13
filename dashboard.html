@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Rohtak Public School SMS</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="crest">RPS</div>
+      <div class="brand-word">Rohtak Public School<small>Student Records</small></div>
+    </div>
+    <nav>
+      <a href="dashboard.html" class="nav-link active">Dashboard</a>
+      <a href="students.html" class="nav-link">Students</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-email" id="userEmail">Loading...</div>
+      <button class="btn btn-ghost btn-sm" style="width:100%" onclick="logout()">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2>Dashboard</h2>
+      <span class="date-badge" id="todayDate"></span>
+    </div>
+
+    <div class="content">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="statTotal">—</div>
+          <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statClasses">—</div>
+          <div class="stat-label">Classes in Use</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statBoys">—</div>
+          <div class="stat-label">Boys</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statGirls">—</div>
+          <div class="stat-label">Girls</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">Recently Added</div>
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Roll No.</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Parent / Guardian</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody id="recentBody">
+            <tr class="empty-row"><td colspan="5">Loading records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

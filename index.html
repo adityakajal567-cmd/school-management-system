@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohtak Public School — Student Management System</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="ledger-bg">
+  <div class="auth-card">
+    <div class="crest">RPS</div>
+    <span class="eyebrow">Rohtak Public School</span>
+    <h1 id="authTitle">Staff Login</h1>
+    <p class="auth-sub" id="authSub">Sign in to manage student records</p>
+
+    <div class="form-msg" id="authMsg"></div>
+
+    <!-- Login form -->
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required placeholder="you@school.edu" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+
+    <!-- Signup form -->
+    <form id="signupForm" style="display:none;">
+      <div class="field">
+        <label for="signupName">Full name</label>
+        <input type="text" id="signupName" required placeholder="e.g. Anjali Sharma">
+      </div>
+      <div class="field">
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required placeholder="you@school.edu" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+
+    <div class="switch-mode">
+      <span id="toggleLine">New staff member?</span>
+      <button id="toggleModeBtn" type="button">Create an account</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

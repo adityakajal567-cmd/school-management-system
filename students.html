@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Students — Rohtak Public School SMS</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="crest">RPS</div>
+      <div class="brand-word">Rohtak Public School<small>Student Records</small></div>
+    </div>
+    <nav>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="students.html" class="nav-link active">Students</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-email" id="userEmail">Loading...</div>
+      <button class="btn btn-ghost btn-sm" style="width:100%" onclick="logout()">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2>Students</h2>
+      <button class="btn btn-brass btn-sm" onclick="openAddModal()">+ Add Student</button>
+    </div>
+
+    <div class="content">
+      <div class="toolbar">
+        <div class="toolbar-filters">
+          <input type="search" id="searchInput" placeholder="Search by name or roll no...">
+          <select id="classFilter">
+            <option value="">All Classes</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Roll No.</th>
+              <th>Name</th>
+              <th>Class</th>
+              <th>Gender</th>
+              <th>Parent / Guardian</th>
+              <th>Phone</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="studentsBody">
+            <tr class="empty-row"><td colspan="7">Loading records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add / Edit modal -->
+<div class="modal-overlay" id="studentModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Add Student</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <form id="studentForm">
+      <div class="modal-body">
+        <div class="form-msg" id="formMsg"></div>
+        <input type="hidden" id="studentId">
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fullName">Full name *</label>
+            <input type="text" id="fullName" required placeholder="e.g. Rohan Kumar">
+          </div>
+          <div class="field">
+            <label for="rollNo">Roll number *</label>
+            <input type="text" id="rollNo" required placeholder="e.g. 24">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="studentClass">Class *</label>
+            <input type="text" id="studentClass" required placeholder="e.g. 8">
+          </div>
+          <div class="field">
+            <label for="section">Section</label>
+            <input type="text" id="section" placeholder="e.g. A">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="parentName">Parent / Guardian name</label>
+            <input type="text" id="parentName" placeholder="e.g. Suresh Kumar">
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" placeholder="e.g. 98xxxxxxxx">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address">Address</label>
+          <textarea id="address" rows="2" placeholder="House no., street, area, Rohtak"></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Save Student</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/students.js"></script>
+</body>
+</html>
