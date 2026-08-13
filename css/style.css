@@ -395,6 +395,31 @@ a{ color: inherit; }
   display:flex; justify-content:flex-end; gap:10px;
 }
 
+/* attendance status toggle */
+.status-group{ display:inline-flex; border:1px solid #d6d2c4; border-radius: var(--radius); overflow:hidden; }
+.status-btn{
+  border:none; background: var(--white); color: var(--slate);
+  font-family:inherit; font-size:12.5px; font-weight:600;
+  padding: 7px 12px; cursor:pointer; border-right: 1px solid #d6d2c4;
+}
+.status-btn:last-child{ border-right:none; }
+.status-btn:hover{ background: var(--paper); }
+.status-btn.active[data-status="Present"]{ background: rgba(63,122,92,0.14); color: var(--green); }
+.status-btn.active[data-status="Absent"]{ background: rgba(179,65,58,0.14); color: var(--red); }
+.status-btn.active[data-status="Late"]{ background: rgba(201,162,75,0.22); color: #8a6d1f; }
+
+.status-tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:20px; }
+.status-tag.Present{ background: rgba(63,122,92,0.12); color: var(--green); }
+.status-tag.Absent{ background: rgba(179,65,58,0.12); color: var(--red); }
+.status-tag.Late{ background: rgba(201,162,75,0.22); color: #8a6d1f; }
+
+.attendance-summary{
+  display:flex; gap:18px; align-items:center;
+  font-size: 13px; color: var(--slate);
+  margin-bottom: 4px;
+}
+.attendance-summary strong{ color: var(--navy); }
+
 .hint{ font-size:12px; color: var(--slate-soft); margin-top:4px; }
 .loading-text{ color: var(--slate); font-size: 13.5px; padding: 20px; text-align:center; }
 
