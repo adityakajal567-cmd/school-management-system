@@ -5,23 +5,25 @@ Plain **HTML, CSS, and JavaScript** — no build step, no framework. Data and
 login are handled by **Supabase**, and the site is meant to be hosted for
 free on **Cloudflare Pages** via GitHub.
 
-Staff can sign up / log in, view a dashboard of quick stats, and add, edit,
-search, filter, and delete student records.
+Staff can sign up / log in, view a dashboard of quick stats, add/edit/search/
+filter/delete student records, and mark + review daily class attendance.
 
 ## What's included
 
 ```
 school-sms/
 ├── index.html          Login / sign-up screen
-├── dashboard.html       Stat cards + recently added students
+├── dashboard.html       Stat cards + recently added students + today's attendance
 ├── students.html         Full student list with search, filter, add/edit/delete
+├── attendance.html        Mark daily attendance per class + attendance history
 ├── css/
 │   └── style.css         All styling (single stylesheet, no build tools)
 ├── js/
 │   ├── config.js          Supabase URL + anon key (EDIT THIS)
 │   ├── auth.js             Login/signup/logout + page protection
 │   ├── dashboard.js        Loads stats for the dashboard
-│   └── students.js         CRUD logic for the students table
+│   ├── students.js         CRUD logic for the students table
+│   └── attendance.js       Mark/save attendance + load per-class history
 └── README.md
 ```
 
@@ -90,7 +92,44 @@ student records. If you later want per-teacher restrictions (e.g. a teacher
 only sees their own class), that's a change to these policies, not the app
 code.
 
-## 3. Turn on email/password auth
+## 3. Create the `attendance` table
+
+Run this in the same **SQL Editor**:
+
+```sql
+create table attendance (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references students(id) on delete cascade,
+  date date not null,
+  status text not null check (status in ('Present', 'Absent', 'Late')),
+  marked_by uuid references auth.users(id),
+  created_at timestamptz not null default now(),
+  unique (student_id, date)
+);
+
+alter table attendance enable row level security;
+
+create policy "Authenticated users can view attendance"
+  on attendance for select
+  to authenticated
+  using (true);
+
+create policy "Authenticated users can insert attendance"
+  on attendance for insert
+  to authenticated
+  with check (true);
+
+create policy "Authenticated users can update attendance"
+  on attendance for update
+  to authenticated
+  using (true);
+```
+
+The `unique (student_id, date)` constraint is what lets the Attendance page
+save with a single **upsert** — marking the same student twice on the same
+day updates their status instead of creating a duplicate row.
+
+## 4. Turn on email/password auth
 
 By default Supabase already has email/password sign-up enabled under
 **Authentication → Providers → Email**. For a quick demo you may want to
@@ -99,7 +138,7 @@ turn **off** "Confirm email" (Authentication → Providers → Email →
 up without clicking an email link. Leave it on for anything closer to
 production.
 
-## 4. Push this folder to GitHub
+## 5. Push this folder to GitHub
 
 ```bash
 cd school-sms
@@ -114,7 +153,7 @@ git push -u origin main
 Or just create a new repository on GitHub and upload these files through
 the web UI ("Add file → Upload files").
 
-## 5. Deploy on Cloudflare Pages
+## 6. Deploy on Cloudflare Pages
 
 1. Go to the [Cloudflare dashboard](https://dash.cloudflare.com) → **Workers & Pages → Create → Pages → Connect to Git**.
 2. Select the repository you just pushed.
@@ -124,19 +163,27 @@ the web UI ("Add file → Upload files").
 
 Every time you push to `main`, Cloudflare redeploys automatically.
 
-## 6. Try it out
+## 7. Try it out
 
 1. Open the deployed URL — you'll land on the login screen.
 2. Click **Create an account** and sign up with a staff email + password.
 3. You'll land on the **Dashboard**. Go to **Students → + Add Student** to
-   add your first record.
+   add your first record (add a few in the same class to try attendance).
 4. Use the search box and class filter on the Students page to find
    records quickly.
+5. Go to **Attendance**, pick a class and a date, mark each student
+   Present / Absent / Late (or use **Mark all Present**), then
+   **Save Attendance**. Re-opening the same class/date later preloads
+   whatever was already marked, and the panel below shows recent history
+   and the present rate for that class.
 
 ## Notes on this being a demo
 
 - There's a single role ("staff") — no separate admin/teacher/student
   logins. That's a reasonable next step if you extend this.
+- Attendance is marked per class per day, one status per student
+  (Present/Absent/Late) — no periods/subjects. Add a `subject` or
+  `period` column to `attendance` if you need multiple sessions a day.
 - No pagination — fine for a demo of a few dozen–hundred students; add
   pagination or infinite scroll before using it with a large school roster.
 - No file uploads (e.g. student photos) — Supabase Storage would be the

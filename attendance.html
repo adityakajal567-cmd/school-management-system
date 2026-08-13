@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance — Rohtak Public School SMS</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="crest">RPS</div>
+      <div class="brand-word">Rohtak Public School<small>Student Records</small></div>
+    </div>
+    <nav>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="students.html" class="nav-link">Students</a>
+      <a href="attendance.html" class="nav-link active">Attendance</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-email" id="userEmail">Loading...</div>
+      <button class="btn btn-ghost btn-sm" style="width:100%" onclick="logout()">Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2>Attendance</h2>
+      <span class="date-badge" id="topbarStatus"></span>
+    </div>
+
+    <div class="content">
+      <div class="toolbar">
+        <div class="toolbar-filters">
+          <div class="field" style="margin-bottom:0;">
+            <input type="date" id="attDate">
+          </div>
+          <select id="attClass">
+            <option value="">Select a class...</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" id="markAllPresentBtn">Mark all Present</button>
+        </div>
+        <button class="btn btn-primary btn-sm" id="saveAttendanceBtn" disabled>Save Attendance</button>
+      </div>
+
+      <div class="form-msg" id="attMsg"></div>
+
+      <div class="panel">
+        <div class="panel-head" id="panelHead">Select a class and date to begin</div>
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Roll No.</th>
+              <th>Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceBody">
+            <tr class="empty-row"><td colspan="3">Choose a class above to load its student list.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="height:28px;"></div>
+
+      <div class="panel">
+        <div class="panel-head">Attendance History — <span id="historyClassLabel">selected class</span></div>
+        <div style="padding:16px 20px 0;">
+          <div class="attendance-summary" id="historySummary"></div>
+        </div>
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Roll No.</th>
+              <th>Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <tr class="empty-row"><td colspan="4">Select a class to see its recent attendance history.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/attendance.js"></script>
+</body>
+</html>
