@@ -38,6 +38,8 @@ async function loadDashboard() {
   document.getElementById("statBoys").textContent = boys;
   document.getElementById("statGirls").textContent = girls;
 
+  loadTodayAttendance(total);
+
   const recentBody = document.getElementById("recentBody");
   const recent = students.slice(0, 6);
 
@@ -55,6 +57,32 @@ async function loadDashboard() {
       <td>${new Date(s.created_at).toLocaleDateString("en-IN")}</td>
     </tr>
   `).join("");
+}
+
+async function loadTodayAttendance(totalStudents) {
+  const statEl = document.getElementById("statAttendance");
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { data, error } = await supabaseClient
+    .from("attendance")
+    .select("status")
+    .eq("date", today);
+
+  if (error) {
+    // Table may not exist yet if the SQL from the README hasn't been run.
+    statEl.textContent = "—";
+    return;
+  }
+
+  if (data.length === 0) {
+    statEl.textContent = "Not marked";
+    statEl.style.fontSize = "18px";
+    return;
+  }
+
+  const present = data.filter(r => r.status === "Present").length;
+  const pct = totalStudents ? Math.round((present / totalStudents) * 100) : 0;
+  statEl.textContent = pct + "%";
 }
 
 loadDashboard();

@@ -6,8 +6,8 @@
    within the permissions your Row Level Security policies allow.
    ========================================================================== */
 
-const SUPABASE_URL = "https://egtkrijoifbdciirzlut.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_ftUgnmmoNwqhr5f9-aC56A_7Rj-TxUd";
+const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
 
 // Shared client instance used across every page.
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
